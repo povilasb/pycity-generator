@@ -21,6 +21,6 @@ def fixture_dir(fixture_name):
 def test_py_files_collects_all_python_source_files_from_specified_directory():
     test_dir = Dir(fixture_dir('project1'))
 
-    files = test_dir.py_files()
+    tree = test_dir.py_files()
 
-    assert_that(files, is_(['main.py', 'out.py']))
+    assert_that(tree['files'], is_(['main.py', 'out.py']))

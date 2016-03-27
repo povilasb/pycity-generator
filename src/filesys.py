@@ -5,11 +5,20 @@ class Dir:
         self.path = path
 
     def py_files(self):
-        files = []
-        for root, _, dir_files in os.walk(self.path):
-            files += [f for f in dir_files if f.endswith('.py')]
+        """Collects python files from directory.
 
-        return files
+        Returns:
+            dict: directory tree with python files collected only.
+        """
+        tree = {
+            'files': [],
+            'dirs': [],
+        }
+
+        for root, _, dir_files in os.walk(self.path):
+            tree['files'] = [f for f in dir_files if f.endswith('.py')]
+
+        return tree
 
     def full_path(self, fname):
         return os.path.join(self.path, fname)
