@@ -1,6 +1,14 @@
 import python
 
 def analyze_file(fname):
+    """Analyzes source file and produces data for Code City.
+
+    Args:
+        fname (str): full path to source file.
+
+    Returns
+        dict: code city data representing the source file.
+    """
     module_tree = python.parse_module(fname)
 
     file_stats = {
