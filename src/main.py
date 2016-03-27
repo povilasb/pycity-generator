@@ -1,11 +1,12 @@
 import filesys
 import python
 import db
+import code_city
 
 sources_dir = filesys.Dir('/home/povilas/projects/scrapy/scrapy')
 project_stats = {}
 for f in sources_dir.py_files():
-    project_stats[f] = python.analyze_file(sources_dir.full_path(f))
+    project_stats[f] = code_city.analyze_file(sources_dir.full_path(f))
 
 city_db = db.City('172.17.0.2', 'root', 'root', 'jscity')
 city_db.connect()

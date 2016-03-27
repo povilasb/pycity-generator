@@ -54,24 +54,3 @@ def method_count(class_node):
 
 def parse_module(fname):
     return ast.parse(filesys.read_file(fname))
-
-def analyze_file(fname):
-    module_tree = parse_module(fname)
-
-    file_stats = {
-        'classes': {},
-        'functions': {}
-    }
-
-    for c in class_nodes(module_tree):
-        file_stats['classes'][c.name] = {
-            'code_length': code_length(c),
-            'methods': method_count(c),
-        }
-
-    for f in function_nodes(module_tree):
-        file_stats['functions'][f.name] = {
-            'code_length': code_length(f)
-        }
-
-    return file_stats
