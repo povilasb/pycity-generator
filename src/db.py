@@ -39,12 +39,12 @@ class City:
         self._connection.commit()
         return self._cursor.lastrowid
 
-    def create_building(self, name, height, width, district_id):
+    def create_building(self, name, height, width, district_id, color='0x337AB7'):
         self._cursor.execute(
             """insert into jscity.tb_building
                 (name, height, width, color, tooltip, district_id)
-                values ('%s', %d, %d, '0x337AB7', '%s', %d)""" % \
-                (name, height, width, name, district_id)
+                values ('%s', %d, %d, '%s', '%s', %d)""" % \
+                (name, height, width, color, name, district_id)
         )
         self._connection.commit()
         return self._cursor.lastrowid
