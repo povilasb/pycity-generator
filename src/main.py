@@ -24,4 +24,4 @@ for fname in project_stats:
     for fn in file_stats['functions']:
         function_stats = file_stats['functions'][fn]
         city_db.create_building(fn, function_stats['code_length'],
-                                function_stats['arguments'], district_id)
+            function_stats['arguments'], district_id, '0x4CAE4C')
