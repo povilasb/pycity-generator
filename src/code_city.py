@@ -10,7 +10,8 @@ def analyze_function(func_node):
         dict: metrics about the specified function.
     """
     return {
-        'code_length': python.code_length(func_node)
+        'code_length': python.code_length(func_node),
+        'arguments': python.argument_count(func_node),
     }
 
 def analyze_file(fname):
