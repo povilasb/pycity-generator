@@ -1,5 +1,18 @@
 import python
 
+def analyze_function(func_node):
+    """Analyze the function AST node.
+
+    Args:
+        func_node (ast.FunctionDef)
+
+    Returns:
+        dict: metrics about the specified function.
+    """
+    return {
+        'code_length': python.code_length(func_node)
+    }
+
 def analyze_file(fname):
     """Analyzes source file and produces data for Code City.
 
@@ -23,8 +36,6 @@ def analyze_file(fname):
         }
 
     for f in python.function_nodes(module_tree):
-        file_stats['functions'][f.name] = {
-            'code_length': python.code_length(f)
-        }
+        file_stats['functions'][f.name] = analyze_function(f)
 
     return file_stats
