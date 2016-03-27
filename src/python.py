@@ -30,6 +30,18 @@ def class_nodes(tree):
 def function_nodes(tree):
     return children_of_type(tree, ast.FunctionDef)
 
+def argument_nodes(tree):
+    """Extracts function argument nodes.
+
+    Args:
+        tree: python AST object.
+
+    Returns:
+        list(ast.Name): function arguments
+    """
+    args_node = children_of_type(tree, ast.arguments)[0]
+    return [arg for arg in ast.iter_child_nodes(args_node)]
+
 def try_get_line(node):
     try:
         return node.lineno
@@ -51,6 +63,16 @@ def code_length(node):
 
 def method_count(class_node):
     return len(function_nodes(class_node))
+
+def argument_count(function_node):
+    """
+    Args:
+        function_node (Ast.FunctionDef)
+
+    Returns:
+        int: number of arguments within the specified function node.
+    """
+    return len(argument_nodes(function_node))
 
 def parse_module(fname):
     return ast.parse(filesys.read_file(fname))
