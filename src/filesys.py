@@ -40,3 +40,42 @@ class Dir:
 def read_file(fname):
     with open(fname, 'r') as f:
         return f.read()
+
+def make_dir_node():
+    """Constructs directory node representing object.
+    """
+    return {
+        'files': [],
+        'dirs': {},
+    }
+
+def get_subdir_node(dir_tree, subdir_path):
+    """
+    Args:
+        dir_tree (dict): root directory to search node for.
+        subdir_path (str): path to subdirectory node to find.
+
+    Returns:
+        dict: directory tree node to the specified subdirectory.
+    """
+    node = dir_tree
+
+    if subdir_path:
+        dirs = subdir_path.split('/')
+        for d in dirs:
+            node = node['dirs'][d]
+
+    return node
+
+def get_subdir_parent(dir_tree, subdir_path):
+    """
+    Args:
+        dir_tree (dict): root directory to search node for.
+        subdir_path (str): path to subdirectory node whose parent we are
+            looking for.
+
+    Returns:
+        dict: directory tree node to the specified subdirectory parent node.
+    """
+    parent_path, curr_dir = os.path.split(subdir_path)
+    return get_subdir_node(dir_tree, parent_path), curr_dir
