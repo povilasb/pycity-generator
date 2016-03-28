@@ -24,3 +24,18 @@ def test_py_files_collects_all_python_source_files_from_specified_directory():
     tree = test_dir.py_files()
 
     assert_that(tree['files'], is_(['main.py', 'out.py']))
+
+def test_py_files_collects_all_python_files_recursively():
+    test_dir = Dir(fixture_dir('project-with-subdir'))
+
+    tree = test_dir.py_files()
+
+    assert_that(tree, is_({
+        'files': ['main.py'],
+        'dirs': {
+            'output': {
+                'files': ['__init__.py', 'stdout.py'],
+                'dirs': {},
+            }
+        },
+    }))

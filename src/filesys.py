@@ -10,13 +10,17 @@ class Dir:
         Returns:
             dict: directory tree with python files collected only.
         """
-        tree = {
-            'files': [],
-            'dirs': [],
-        }
+        tree = make_dir_node()
 
-        for root, _, dir_files in os.walk(self.path):
-            tree['files'] = [f for f in dir_files if f.endswith('.py')]
+        for root, dirs, dir_files in os.walk(self.path):
+            cur_dir_node = make_dir_node()
+            cur_dir_node['files'] = [f for f in dir_files if f.endswith('.py')]
+
+            parent_dir_node, cur_dir = get_subdir_parent(tree, self.subdir(root))
+            if cur_dir:
+                parent_dir_node['dirs'][cur_dir] = cur_dir_node
+            else:
+                tree['files'] = cur_dir_node['files']
 
         return tree
 
