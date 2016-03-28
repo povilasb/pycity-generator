@@ -30,12 +30,23 @@ class City:
         self._connection.commit()
         return self._cursor.lastrowid
 
-    def create_district(self, name, city_id):
-        self._cursor.execute(
-            """insert into jscity.tb_district (name, color, tooltip, city_id)
-                values ('%s', '0xD9534F', '%s', %d)""" % \
-                (name, name, city_id)
-        )
+    def create_district(self, name, city_id, parent_district_id=None,
+                        color='0xD9534F'):
+        if parent_district_id:
+            self._cursor.execute(
+                """insert into jscity.tb_district
+                    (name, color, tooltip, city_id, district_id)
+                    values ('%s', '%s', '%s', %d, %d)""" % \
+                    (name, color, name, city_id, parent_district_id)
+            )
+        else:
+            self._cursor.execute(
+                """insert into jscity.tb_district
+                    (name, color, tooltip, city_id)
+                    values ('%s', '%s', '%s', %d)""" % \
+                    (name, color, name, city_id)
+            )
+
         self._connection.commit()
         return self._cursor.lastrowid
 
