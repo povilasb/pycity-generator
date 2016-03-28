@@ -57,7 +57,7 @@ def generate_code_city_district(project_stats, city_db, city_id,
 
     for dir_name in project_stats['dirs']:
         district_id = city_db.create_district(dir_name, city_id,
-                                              parent_district_id)
+                                              parent_district_id, '0xF0AD4E')
         generate_code_city_district(project_stats['dirs'][dir_name], city_db,
                                     city_id, district_id)
 
