@@ -98,6 +98,12 @@ class Node(object):
         self.name = name
 
 
+    @property
+    def full_path(self):
+        """Returns full file system node path."""
+        return os.path.join(self.root_path, self.name)
+
+
 class File(Node):
     """Represents file in filesystem."""
     pass
