@@ -14,6 +14,22 @@ def analyze_function(func_node):
         'arguments': python.argument_count(func_node),
     }
 
+
+def analyze_class(class_node):
+    """Analyze the class AST node.
+
+    Args:
+        class_node (ast.ClassDef)
+
+    Returns:
+        dict: metrics about the specified class.
+    """
+    return {
+        'code_length': python.code_length(class_node),
+        'methods': python.method_count(class_node),
+    }
+
+
 def analyze_file(fname):
     """Analyzes source file and produces data for Code City.
 
@@ -31,10 +47,7 @@ def analyze_file(fname):
     }
 
     for c in python.class_nodes(module_tree):
-        file_stats['classes'][c.name] = {
-            'code_length': python.code_length(c),
-            'methods': python.method_count(c),
-        }
+        file_stats['classes'][c.name] = analyze_class(c)
 
     for f in python.function_nodes(module_tree):
         file_stats['functions'][f.name] = analyze_function(f)
