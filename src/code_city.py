@@ -40,16 +40,10 @@ def analyze_file(fname):
         dict: code city data representing the source file.
     """
     module_tree = python.parse_module(fname)
-
-    file_stats = {
-        'classes': {},
-        'functions': {}
+    return {
+        'classes': {
+            c.name: analyze_class(c) for c in python.class_nodes(module_tree)},
+        'functions': {
+            f.name: analyze_function(f) for f in python.function_nodes(module_tree)
+        }
     }
-
-    for c in python.class_nodes(module_tree):
-        file_stats['classes'][c.name] = analyze_class(c)
-
-    for f in python.function_nodes(module_tree):
-        file_stats['functions'][f.name] = analyze_function(f)
-
-    return file_stats
