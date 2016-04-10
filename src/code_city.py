@@ -44,6 +44,6 @@ def analyze_file(fname):
         'classes': {
             c.name: analyze_class(c) for c in module.class_nodes()},
         'functions': {
-            f.name: analyze_function(f) for f in python.function_nodes(module.ast_tree)
+            f.name: analyze_function(f) for f in module.function_nodes()
         }
     }

@@ -24,9 +24,6 @@ def children_of_type(tree, children_type):
 
     return children
 
-def function_nodes(tree):
-    return children_of_type(tree, ast.FunctionDef)
-
 def argument_nodes(tree):
     """Extracts function argument nodes.
 
@@ -59,7 +56,7 @@ def code_length(node):
     return last_line(node) - node.lineno + 1
 
 def method_count(class_node):
-    return len(function_nodes(class_node))
+    return len(AstTree(class_node).function_nodes())
 
 def argument_count(function_node):
     """
@@ -89,6 +86,14 @@ class AstTree(object):
             list: child nodes of type ast.ClassDef.
         """
         return children_of_type(self.ast_tree, ast.ClassDef)
+
+
+    def function_nodes(self):
+        """
+        Returns:
+            list: child nodes of type ast.FunctionDef.
+        """
+        return children_of_type(self.ast_tree, ast.FunctionDef)
 
 
 def parse_module(fname):

@@ -19,3 +19,19 @@ class Test2(object):
     class_nodes = source_tree.class_nodes()
 
     assert_that(class_nodes, has_length(2))
+
+
+def test_function_nodes_returns_function_definition_child_nodes():
+    src = """
+def func1():
+    pass
+class Test1(object):
+    pass
+def func2():
+    pass
+"""
+    source_tree = AstTree(ast.parse(src))
+
+    function_nodes = source_tree.function_nodes()
+
+    assert_that(function_nodes, has_length(2))
