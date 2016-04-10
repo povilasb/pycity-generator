@@ -23,4 +23,5 @@ def make_class_node(src):
     Returns:
         ast.ClassDef: class AST node.
     """
-    return python.class_nodes(ast.parse(src))[0]
+    tree = python.AstTree(ast.parse(src))
+    return tree.class_nodes()[0]

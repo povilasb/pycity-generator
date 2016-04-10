@@ -24,9 +24,6 @@ def children_of_type(tree, children_type):
 
     return children
 
-def class_nodes(tree):
-    return children_of_type(tree, ast.ClassDef)
-
 def function_nodes(tree):
     return children_of_type(tree, ast.FunctionDef)
 
@@ -84,6 +81,14 @@ class AstTree(object):
             ast_tree: object returned by ast.parse().
         """
         self.ast_tree = ast_tree
+
+
+    def class_nodes(self):
+        """
+        Returns:
+            list: child nodes of type ast.ClassDef.
+        """
+        return children_of_type(self.ast_tree, ast.ClassDef)
 
 
 def parse_module(fname):
