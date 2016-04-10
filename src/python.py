@@ -74,5 +74,25 @@ def argument_count(function_node):
     """
     return len(argument_nodes(function_node))
 
+
+class AstTree(object):
+    """Abstratc Python Syntax Tree."""
+
+    def __init__(self, ast_tree):
+        """
+        Args:
+            ast_tree: object returned by ast.parse().
+        """
+        self.ast_tree = ast_tree
+
+
 def parse_module(fname):
-    return ast.parse(filesys.read_file(fname))
+    """Parses python module.
+
+    Args:
+        fname (str): python file name to parse.
+
+    Returns:
+        AstTree: abstract syntax tree object
+    """
+    return AstTree(ast.parse(filesys.read_file(fname)))

@@ -39,7 +39,7 @@ def analyze_file(fname):
     Returns
         dict: code city data representing the source file.
     """
-    module_tree = python.parse_module(fname)
+    module_tree = python.parse_module(fname).ast_tree
     return {
         'classes': {
             c.name: analyze_class(c) for c in python.class_nodes(module_tree)},
