@@ -1,4 +1,5 @@
 import ast
+import exceptions
 
 import filesys
 
@@ -58,16 +59,6 @@ def code_length(node):
 def method_count(class_node):
     return len(AstTree(class_node).function_nodes())
 
-def argument_count(function_node):
-    """
-    Args:
-        function_node (Ast.FunctionDef)
-
-    Returns:
-        int: number of arguments within the specified function node.
-    """
-    return len(argument_nodes(function_node))
-
 
 class AstTree(object):
     """Abstratc Python Syntax Tree."""
@@ -94,6 +85,37 @@ class AstTree(object):
             list: child nodes of type ast.FunctionDef.
         """
         return children_of_type(self.ast_tree, ast.FunctionDef)
+
+
+class FunctionAst(AstTree):
+    """ast.FunctionDef wrapper.
+
+    Provides higher level functions.
+    """
+
+    def __init__(self, ast_tree):
+        """
+        Args:
+            ast_tree: object returned by ast.parse().
+        """
+        super(FunctionAst, self).__init__(ast_tree)
+
+        self._assert_function_def()
+
+
+    def argument_count(self):
+        """
+        Returns:
+            int: number of arguments within the function node.
+        """
+        return len(argument_nodes(self.ast_tree))
+
+
+    def _assert_function_def(self):
+        """Ensure that the wrapped AST node is FunctionDef."""
+        if (type(self.ast_tree) != ast.FunctionDef):
+            raise exceptions.ValueError(
+                'Invalid ast object type. Expected FunctionDef.')
 
 
 def parse_module(fname):

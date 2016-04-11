@@ -1,6 +1,6 @@
 import ast
 
-from hamcrest import assert_that, is_, has_length, instance_of
+from hamcrest import assert_that, has_length, instance_of
 from mock import patch
 
 import test_utils
@@ -16,17 +16,6 @@ def fun1(arg1, arg2, arg3):
     args = python.argument_nodes(fn_node)
 
     assert_that(args, has_length(3))
-
-def test_argument_count_returns_number_of_arguments_within_function_node():
-    src = """
-def fun1(arg1, arg2, arg3):
-    pass
-"""
-    fn_node = test_utils.make_function_node(src)
-
-    args_count = python.argument_count(fn_node)
-
-    assert_that(args_count, is_(3))
 
 
 @patch('filesys.read_file')

@@ -9,9 +9,10 @@ def analyze_function(func_node):
     Returns:
         dict: metrics about the specified function.
     """
+    function = python.FunctionAst(func_node)
     return {
         'code_length': python.code_length(func_node),
-        'arguments': python.argument_count(func_node),
+        'arguments': function.argument_count(),
     }
 
 
