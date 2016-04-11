@@ -119,6 +119,15 @@ class FunctionAst(AstTree):
         return len(argument_nodes(self.ast_tree))
 
 
+    @property
+    def name(self):
+        """
+        Returns:
+            str: function name.
+        """
+        return self.ast_tree.name
+
+
     def _assert_function_def(self):
         """Ensure that the wrapped AST node is FunctionDef."""
         if (type(self.ast_tree) != ast.FunctionDef):
