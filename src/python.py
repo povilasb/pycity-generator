@@ -135,6 +135,29 @@ class FunctionAst(AstTree):
                 'Invalid ast object type. Expected FunctionDef.')
 
 
+class ClassAst(AstTree):
+    """ast.ClassDef wrapper.
+
+    Provides higher level functions.
+    """
+
+    def __init__(self, ast_tree):
+        """
+        Args:
+            ast_tree: object returned by ast.parse().
+        """
+        super(ClassAst, self).__init__(ast_tree)
+
+        self._assert_class_def()
+
+
+    def _assert_class_def(self):
+        """Ensure that the wrapped AST node is ClassDef."""
+        if (type(self.ast_tree) != ast.ClassDef):
+            raise exceptions.ValueError(
+                'Invalid ast object type. Expected ClassDef.')
+
+
 def parse_module(fname):
     """Parses python module.
 
