@@ -53,12 +53,6 @@ def last_line(tree):
 
     return line
 
-def code_length(node):
-    return last_line(node) - node.lineno + 1
-
-def method_count(class_node):
-    return len(AstTree(class_node).function_nodes())
-
 
 class AstTree(object):
     """Abstratc Python Syntax Tree."""
