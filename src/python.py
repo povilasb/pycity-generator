@@ -89,6 +89,15 @@ class AstTree(object):
         return last_line(self.ast_tree) - self.ast_tree.lineno + 1
 
 
+    @property
+    def name(self):
+        """
+        Returns:
+            str: function or class name.
+        """
+        return self.ast_tree.name
+
+
 class FunctionAst(AstTree):
     """ast.FunctionDef wrapper.
 
@@ -111,15 +120,6 @@ class FunctionAst(AstTree):
             int: number of arguments within the function node.
         """
         return len(argument_nodes(self.ast_tree))
-
-
-    @property
-    def name(self):
-        """
-        Returns:
-            str: function name.
-        """
-        return self.ast_tree.name
 
 
     def _assert_function_def(self):

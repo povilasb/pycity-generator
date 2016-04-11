@@ -49,3 +49,13 @@ def func1(arg1, arg2, arg3):
     function = AstTree(test_utils.make_function_node(src))
 
     assert_that(function.loc(), is_(4))
+
+
+def test_name_returns_function_name():
+    src = """
+def func_name():
+    pass
+"""
+    function = AstTree(test_utils.make_function_node(src))
+
+    assert_that(function.name, is_('func_name'))
