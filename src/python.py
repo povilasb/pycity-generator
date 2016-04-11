@@ -87,6 +87,14 @@ class AstTree(object):
         return children_of_type(self.ast_tree, ast.FunctionDef)
 
 
+    def loc(self):
+        """
+        Returns:
+            int: function lines of code.
+        """
+        return last_line(self.ast_tree) - self.ast_tree.lineno + 1
+
+
 class FunctionAst(AstTree):
     """ast.FunctionDef wrapper.
 
