@@ -151,6 +151,14 @@ class ClassAst(AstTree):
         self._assert_class_def()
 
 
+    def method_count(self):
+        """
+        Returns:
+            int: class method count.
+        """
+        return len(self.function_nodes())
+
+
     def _assert_class_def(self):
         """Ensure that the wrapped AST node is ClassDef."""
         if (type(self.ast_tree) != ast.ClassDef):

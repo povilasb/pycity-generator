@@ -25,9 +25,10 @@ def analyze_class(class_node):
     Returns:
         dict: metrics about the specified class.
     """
+    cls = python.ClassAst(class_node)
     return {
-        'code_length': python.code_length(class_node),
-        'methods': python.method_count(class_node),
+        'code_length': cls.loc(),
+        'methods': cls.method_count(),
     }
 
 
