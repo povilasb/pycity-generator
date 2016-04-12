@@ -27,7 +27,7 @@ def func(arg1, arg2):
 
 
 def test_analyze_class_returns_class_line_count():
-    class_node = test_utils.make_class_node("""
+    class_node = test_utils.make_class_ast("""
 class Person(object):
     def __init__(self, name, age):
         self.name = name
@@ -39,7 +39,7 @@ class Person(object):
     assert_that(stats, has_entries(code_length=4))
 
 def test_analyze_class_returns_method_count():
-    class_node = test_utils.make_class_node("""
+    class_node = test_utils.make_class_ast("""
 class Person(object):
     def __init__(self):
         pass

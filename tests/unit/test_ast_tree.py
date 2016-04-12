@@ -2,7 +2,7 @@ import ast
 
 from hamcrest import assert_that, has_length, is_
 
-from python import AstTree, FunctionAst
+from python import AstTree, FunctionAst, ClassAst
 
 import test_utils
 
@@ -21,6 +21,23 @@ class Test2(object):
     class_nodes = source_tree.class_nodes()
 
     assert_that(class_nodes, has_length(2))
+
+
+def test_classes_returns_class_definition_child_nodes():
+    src = """
+class Test1(object):
+    pass
+def func1():
+    pass
+class Test2(object):
+    pass
+"""
+    source_tree = AstTree(ast.parse(src))
+
+    class_nodes = source_tree.classes()
+
+    assert_that(class_nodes, has_length(2))
+    assert_that(class_nodes[0], is_(ClassAst))
 
 
 def test_functions_returns_function_definition_child_nodes():

@@ -73,6 +73,15 @@ class AstTree(object):
         return children_of_type(self.ast_tree, ast.ClassDef)
 
 
+    def classes(self):
+        """
+        Returns:
+            list: child nodes of type ClassAst.
+        """
+        return [ClassAst(child) for child \
+            in children_of_type(self.ast_tree, ast.ClassDef)]
+
+
     def functions(self):
         """
         Returns:

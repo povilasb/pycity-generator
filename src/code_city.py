@@ -24,10 +24,9 @@ def analyze_class(class_node):
     Returns:
         dict: metrics about the specified class.
     """
-    cls = python.ClassAst(class_node)
     return {
-        'code_length': cls.loc(),
-        'methods': cls.method_count(),
+        'code_length': class_node.loc(),
+        'methods': class_node.method_count(),
     }
 
 
@@ -43,7 +42,7 @@ def analyze_file(fname):
     module = python.parse_module(fname)
     return {
         'classes': {
-            c.name: analyze_class(c) for c in module.class_nodes()},
+            c.name: analyze_class(c) for c in module.classes()},
         'functions': {
             f.name: analyze_function(f) for f in module.functions()
         }

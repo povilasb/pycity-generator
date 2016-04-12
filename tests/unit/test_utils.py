@@ -26,3 +26,15 @@ def make_class_node(src):
     """
     tree = python.AstTree(ast.parse(src))
     return tree.class_nodes()[0]
+
+
+def make_class_ast(src):
+    """Constructs python AST class node.
+
+    Args:
+        src (str): class body.
+
+    Returns:
+        python.ClassAst: class AST node.
+    """
+    return python.AstTree(ast.parse(src)).classes()[0]
