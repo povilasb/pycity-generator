@@ -4,8 +4,6 @@ from hamcrest import assert_that, has_length, is_
 
 from python import AstTree, FunctionAst, ClassAst
 
-import test_utils
-
 
 def test_class_nodes_returns_class_definition_child_nodes():
     src = """
