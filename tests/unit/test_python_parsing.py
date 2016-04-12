@@ -11,7 +11,7 @@ def test_argument_nodes_returns_a_list_of_function_arguments():
 def fun1(arg1, arg2, arg3):
     pass
 """
-    fn_node = test_utils.make_function_node(src)
+    fn_node = test_utils.make_function_ast(src).ast_tree
 
     args = python.argument_nodes(fn_node)
 

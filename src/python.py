@@ -73,14 +73,6 @@ class AstTree(object):
         return children_of_type(self.ast_tree, ast.ClassDef)
 
 
-    def function_nodes(self):
-        """
-        Returns:
-            list: child nodes of type ast.FunctionDef.
-        """
-        return children_of_type(self.ast_tree, ast.FunctionDef)
-
-
     def functions(self):
         """
         Returns:
@@ -159,7 +151,7 @@ class ClassAst(AstTree):
         Returns:
             int: class method count.
         """
-        return len(self.function_nodes())
+        return len(self.functions())
 
 
     def _assert_class_def(self):

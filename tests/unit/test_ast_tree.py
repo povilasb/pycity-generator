@@ -23,21 +23,6 @@ class Test2(object):
     assert_that(class_nodes, has_length(2))
 
 
-def test_function_nodes_returns_function_definition_child_nodes():
-    src = """
-def func1():
-    pass
-class Test1(object):
-    pass
-def func2():
-    pass
-"""
-    source_tree = AstTree(ast.parse(src))
-
-    function_nodes = source_tree.function_nodes()
-
-    assert_that(function_nodes, has_length(2))
-
 def test_functions_returns_function_definition_child_nodes():
     src = """
 def func1():
@@ -62,7 +47,7 @@ def func1(arg1, arg2, arg3):
     arg2 = arg3
     pass
 """
-    function = AstTree(test_utils.make_function_node(src))
+    function = AstTree(ast.parse(src)).functions()[0]
 
     assert_that(function.loc(), is_(4))
 
@@ -72,6 +57,6 @@ def test_name_returns_function_name():
 def func_name():
     pass
 """
-    function = AstTree(test_utils.make_function_node(src))
+    function = AstTree(ast.parse(src)).functions()[0]
 
     assert_that(function.name, is_('func_name'))

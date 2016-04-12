@@ -3,7 +3,7 @@ import exceptions
 
 from hamcrest import assert_that, calling, raises, is_
 
-from python import FunctionAst
+from python import AstTree, FunctionAst
 
 import test_utils
 
@@ -24,6 +24,6 @@ def test_argument_count_returns_function_node_argument_count():
 def func1(arg1, arg2, arg3):
     pass
 """
-    function = FunctionAst(test_utils.make_function_node(src))
+    function = AstTree(ast.parse(src)).functions()[0]
 
     assert_that(function.argument_count(), is_(3))
