@@ -2,25 +2,26 @@ import ast
 
 import python
 
-def make_function_node(src):
+
+def make_function_ast(src):
     """Constructs python AST function node.
 
     Args:
         src (str): function body.
 
     Returns:
-        ast.FunctionDef: function AST node.
+        python.FunctionAst: function AST node.
     """
-    return python.function_nodes(ast.parse(src))[0]
+    return python.AstTree(ast.parse(src)).functions()[0]
 
 
-def make_class_node(src):
+def make_class_ast(src):
     """Constructs python AST class node.
 
     Args:
         src (str): class body.
 
     Returns:
-        ast.ClassDef: class AST node.
+        python.ClassAst: class AST node.
     """
-    return python.class_nodes(ast.parse(src))[0]
+    return python.AstTree(ast.parse(src)).classes()[0]

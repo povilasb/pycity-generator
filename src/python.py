@@ -1,4 +1,5 @@
 import ast
+import exceptions
 
 import filesys
 
@@ -23,12 +24,6 @@ def children_of_type(tree, children_type):
             children.append(node)
 
     return children
-
-def class_nodes(tree):
-    return children_of_type(tree, ast.ClassDef)
-
-def function_nodes(tree):
-    return children_of_type(tree, ast.FunctionDef)
 
 def argument_nodes(tree):
     """Extracts function argument nodes.
@@ -58,21 +53,122 @@ def last_line(tree):
 
     return line
 
-def code_length(node):
-    return last_line(node) - node.lineno + 1
 
-def method_count(class_node):
-    return len(function_nodes(class_node))
+class AstTree(object):
+    """Abstratc Python Syntax Tree."""
 
-def argument_count(function_node):
+    def __init__(self, ast_tree):
+        """
+        Args:
+            ast_tree: object returned by ast.parse().
+        """
+        self.ast_tree = ast_tree
+
+
+    def classes(self):
+        """
+        Returns:
+            list: child nodes of type ClassAst.
+        """
+        return [ClassAst(child) for child \
+            in children_of_type(self.ast_tree, ast.ClassDef)]
+
+
+    def functions(self):
+        """
+        Returns:
+            list: function child nodes wrapped in FunctionAst.
+        """
+        return [FunctionAst(child) for child \
+                in children_of_type(self.ast_tree, ast.FunctionDef)]
+
+
+    def loc(self):
+        """
+        Returns:
+            int: function lines of code.
+        """
+        return last_line(self.ast_tree) - self.ast_tree.lineno + 1
+
+
+    @property
+    def name(self):
+        """
+        Returns:
+            str: function or class name.
+        """
+        return self.ast_tree.name
+
+
+class FunctionAst(AstTree):
+    """ast.FunctionDef wrapper.
+
+    Provides higher level functions.
     """
-    Args:
-        function_node (Ast.FunctionDef)
 
-    Returns:
-        int: number of arguments within the specified function node.
+    def __init__(self, ast_tree):
+        """
+        Args:
+            ast_tree: object returned by ast.parse().
+        """
+        super(FunctionAst, self).__init__(ast_tree)
+
+        self._assert_function_def()
+
+
+    def argument_count(self):
+        """
+        Returns:
+            int: number of arguments within the function node.
+        """
+        return len(argument_nodes(self.ast_tree))
+
+
+    def _assert_function_def(self):
+        """Ensure that the wrapped AST node is FunctionDef."""
+        if (type(self.ast_tree) != ast.FunctionDef):
+            raise exceptions.ValueError(
+                'Invalid ast object type. Expected FunctionDef.')
+
+
+class ClassAst(AstTree):
+    """ast.ClassDef wrapper.
+
+    Provides higher level functions.
     """
-    return len(argument_nodes(function_node))
+
+    def __init__(self, ast_tree):
+        """
+        Args:
+            ast_tree: object returned by ast.parse().
+        """
+        super(ClassAst, self).__init__(ast_tree)
+
+        self._assert_class_def()
+
+
+    def method_count(self):
+        """
+        Returns:
+            int: class method count.
+        """
+        return len(self.functions())
+
+
+    def _assert_class_def(self):
+        """Ensure that the wrapped AST node is ClassDef."""
+        if (type(self.ast_tree) != ast.ClassDef):
+            raise exceptions.ValueError(
+                'Invalid ast object type. Expected ClassDef.')
+
 
 def parse_module(fname):
-    return ast.parse(filesys.read_file(fname))
+    """Parses python module.
+
+    Args:
+        fname (str): python file name to parse.
+
+    Returns:
+        AstTree: abstract syntax tree object
+    """
+    return AstTree(ast.parse(filesys.read_file(fname)))
