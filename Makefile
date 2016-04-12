@@ -8,6 +8,9 @@ test: $(virtualenv_dir)
 	PYTHONPATH=$(PYTHONPATH):$(src_dir) $(pytest) -s tests/
 .PHONY: test
 
-$(virtualenv_dir): requirements/prod.txt
+$(virtualenv_dir): requirements/prod.txt requirements/dev.txt
 	virtualenv $@
-	$(pip) install -r $<
+
+	for r in $^ ; do \
+		$(pip) install -r $$r ; \
+	done
