@@ -3,9 +3,7 @@ import exceptions
 
 from hamcrest import assert_that, calling, raises, is_
 
-from python import ClassAst
-
-import test_utils
+from python import ClassAst, AstTree
 
 
 def test_constructor_raises_exception_if_the_specified_ast_node_to_wrap_is_not_class():
@@ -27,6 +25,6 @@ class TestClass(object):
     def method2(self):
         pass
 """
-    class_node = ClassAst(test_utils.make_class_node(src))
+    class_node = AstTree(ast.parse(src)).classes()[0]
 
     assert_that(class_node.method_count(), is_(2))
