@@ -5,7 +5,7 @@ import test_utils
 import code_city
 
 def test_analyze_function_returns_function_line_count():
-    fn_node = test_utils.make_function_node("""
+    fn_node = test_utils.make_function_ast("""
 def func():
     s = 'test'
     print(s)
@@ -16,7 +16,7 @@ def func():
     assert_that(stats, has_entries(code_length=3))
 
 def test_analyze_function_returns_argument_count():
-    fn_node = test_utils.make_function_node("""
+    fn_node = test_utils.make_function_ast("""
 def func(arg1, arg2):
     pass
 """)

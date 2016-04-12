@@ -15,6 +15,10 @@ def make_function_node(src):
     return tree.function_nodes()[0]
 
 
+def make_function_ast(src):
+    return python.AstTree(ast.parse(src)).functions()[0]
+
+
 def make_class_node(src):
     """Constructs python AST class node.
 

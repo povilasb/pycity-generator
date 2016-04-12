@@ -81,6 +81,15 @@ class AstTree(object):
         return children_of_type(self.ast_tree, ast.FunctionDef)
 
 
+    def functions(self):
+        """
+        Returns:
+            list: function child nodes wrapped in FunctionAst.
+        """
+        return [FunctionAst(child) for child \
+                in children_of_type(self.ast_tree, ast.FunctionDef)]
+
+
     def loc(self):
         """
         Returns:

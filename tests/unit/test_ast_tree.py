@@ -2,7 +2,7 @@ import ast
 
 from hamcrest import assert_that, has_length, is_
 
-from python import AstTree
+from python import AstTree, FunctionAst
 
 import test_utils
 
@@ -37,6 +37,22 @@ def func2():
     function_nodes = source_tree.function_nodes()
 
     assert_that(function_nodes, has_length(2))
+
+def test_functions_returns_function_definition_child_nodes():
+    src = """
+def func1():
+    pass
+class Test1(object):
+    pass
+def func2():
+    pass
+"""
+    source_tree = AstTree(ast.parse(src))
+
+    functions = source_tree.functions()
+
+    assert_that(functions, has_length(2))
+    assert_that(functions[0], is_(FunctionAst))
 
 
 def test_loc_returns_lines_of_code():

@@ -4,15 +4,14 @@ def analyze_function(func_node):
     """Analyze the function AST node.
 
     Args:
-        func_node (ast.FunctionDef)
+        func_node (python.FunctionAst)
 
     Returns:
         dict: metrics about the specified function.
     """
-    function = python.FunctionAst(func_node)
     return {
-        'code_length': function.loc(),
-        'arguments': function.argument_count(),
+        'code_length': func_node.loc(),
+        'arguments': func_node.argument_count(),
     }
 
 
@@ -46,6 +45,6 @@ def analyze_file(fname):
         'classes': {
             c.name: analyze_class(c) for c in module.class_nodes()},
         'functions': {
-            f.name: analyze_function(f) for f in module.function_nodes()
+            f.name: analyze_function(f) for f in module.functions()
         }
     }
