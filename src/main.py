@@ -2,16 +2,13 @@ import filesys
 import db
 import code_city
 import config
-
-
-project_name = 'Scrapy'
-project_dir = '/home/povilas/projects/scrapy/scrapy'
+import cli
 
 
 city_db = db.City(config.MYSQL['host'], config.MYSQL['username'],
     config.MYSQL['password'], config.MYSQL['database'])
 city_db.connect()
-city_id = city_db.create_city(project_name)
+city_id = city_db.create_city(cli.options().project_name)
 
 def calc_stats(fs_node, parent_district_id=None):
     """Collect project stats.
@@ -42,4 +39,4 @@ def calc_stats(fs_node, parent_district_id=None):
             city_db.create_building(fn, function_stats['code_length'],
                 function_stats['arguments'], district_id, '0x4CAE4C')
 
-filesys.walk(project_dir, calc_stats)
+filesys.walk(cli.options().project_dir, calc_stats)
