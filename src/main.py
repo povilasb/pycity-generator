@@ -1,13 +1,15 @@
 import filesys
 import db
 import code_city
+import config
 
 
 project_name = 'Scrapy'
 project_dir = '/home/povilas/projects/scrapy/scrapy'
 
 
-city_db = db.City('172.17.0.2', 'root', 'root', 'jscity')
+city_db = db.City(config.MYSQL['host'], config.MYSQL['username'],
+    config.MYSQL['password'], config.MYSQL['database'])
 city_db.connect()
 city_id = city_db.create_city(project_name)
 
