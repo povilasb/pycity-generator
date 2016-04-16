@@ -1,5 +1,29 @@
 import MySQLdb as mysql
 
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+
+Base = declarative_base()
+class CodeCity(Base):
+    """City table model."""
+    __tablename__ = 'tb_city'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    tooltip = Column(String)
+
+
+    def __repr__(self):
+        """
+        Returns:
+            str: object representation.
+        """
+        return '<CodeCity(id=%d, name="%s", tooltip="%s")>' % (\
+            self.id, self.name, self.tooltip)
+
+
 class City:
     def __init__(self, host, username, password, database):
         self.host = host
@@ -9,6 +33,11 @@ class City:
 
         self._connection = None
         self._cursor = None
+
+        engine = create_engine('mysql://%s:%s@%s/%s' \
+            % (username, password, host, database))
+        Session = sessionmaker(bind=engine)
+        self.session = Session()
 
     def connect(self):
         self._connection = mysql.connect(
@@ -23,12 +52,18 @@ class City:
         self._connection.close()
 
     def create_city(self, name):
-        self._cursor.execute(
-            'insert into jscity.tb_city (name, tooltip) values (%s, %s)',
-            (name, name)
-        )
-        self._connection.commit()
-        return self._cursor.lastrowid
+        """Create new row in city table.
+
+        Args:
+            name (str): code city name.
+
+        Returns:
+            int: created city id.
+        """
+        new_city = CodeCity(name=name, tooltip=name)
+        self.session.add(new_city)
+        self.session.commit()
+        return new_city.id
 
     def create_district(self, name, city_id, parent_district_id=None,
                         color='0xD9534F'):
