@@ -36,6 +36,19 @@ class District(Base):
     district_id = Column(Integer, ForeignKey('tb_district.id'))
 
 
+class Building(Base):
+    """Building table model."""
+    __tablename__ = 'tb_building'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    height = Column(Integer)
+    width = Column(Integer)
+    color = Column(String)
+    tooltip = Column(String)
+    district_id = Column(Integer, ForeignKey('tb_district.id'))
+
+
 class City:
     def __init__(self, host, username, password, database):
         self.host = host
@@ -87,12 +100,10 @@ class City:
         return new_district.id
 
 
-    def create_building(self, name, height, width, district_id, color='0x337AB7'):
-        self._cursor.execute(
-            """insert into jscity.tb_building
-                (name, height, width, color, tooltip, district_id)
-                values ('%s', %d, %d, '%s', '%s', %d)""" % \
-                (name, height, width, color, name, district_id)
-        )
-        self._connection.commit()
-        return self._cursor.lastrowid
+    def create_building(self, name, height, width, district_id,
+            color='0x337AB7'):
+        new_building = Building(name=name, tooltip=name, color=color,
+            district_id=district_id, height=height, width=width)
+        self.session.add(new_building)
+        self.session.commit()
+        return new_building.id
