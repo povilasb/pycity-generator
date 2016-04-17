@@ -11,3 +11,8 @@ Usage
 ::
 
     $ pyenv/bin/python src/main.py --project-name='PyCity Generator' src/
+
+Requirements
+============
+
+* Python 3
