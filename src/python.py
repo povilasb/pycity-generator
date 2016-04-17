@@ -1,5 +1,4 @@
 import ast
-import exceptions
 
 import filesys
 
@@ -127,7 +126,7 @@ class FunctionAst(AstTree):
     def _assert_function_def(self):
         """Ensure that the wrapped AST node is FunctionDef."""
         if (type(self.ast_tree) != ast.FunctionDef):
-            raise exceptions.ValueError(
+            raise ValueError(
                 'Invalid ast object type. Expected FunctionDef.')
 
 
@@ -158,7 +157,7 @@ class ClassAst(AstTree):
     def _assert_class_def(self):
         """Ensure that the wrapped AST node is ClassDef."""
         if (type(self.ast_tree) != ast.ClassDef):
-            raise exceptions.ValueError(
+            raise ValueError(
                 'Invalid ast object type. Expected ClassDef.')
 
 

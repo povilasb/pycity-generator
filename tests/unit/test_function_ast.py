@@ -1,5 +1,4 @@
 import ast
-import exceptions
 
 from hamcrest import assert_that, calling, raises, is_
 
@@ -15,7 +14,7 @@ class Test1(object):
 """
     assert_that(
         calling(FunctionAst).with_args(ast.parse(src)),
-        raises(exceptions.ValueError)
+        raises(ValueError)
     )
 
 

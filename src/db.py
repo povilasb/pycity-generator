@@ -49,7 +49,7 @@ class Building(Base):
 
 class City:
     def __init__(self, host, username, password, database):
-        engine = create_engine('mysql://%s:%s@%s/%s' \
+        engine = create_engine('mysql+pymysql://%s:%s@%s/%s' \
             % (username, password, host, database))
         Session = sessionmaker(bind=engine)
         self.session = Session()
