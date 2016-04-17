@@ -1,6 +1,6 @@
 import MySQLdb as mysql
 
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -22,6 +22,18 @@ class CodeCity(Base):
         """
         return '<CodeCity(id=%d, name="%s", tooltip="%s")>' % (\
             self.id, self.name, self.tooltip)
+
+
+class District(Base):
+    """City district table model."""
+    __tablename__ = 'tb_district'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    color = Column(String)
+    tooltip = Column(String)
+    city_id = Column(Integer, ForeignKey('tb_city.id'), nullable=False)
+    district_id = Column(Integer, ForeignKey('tb_district.id'))
 
 
 class City:
@@ -65,25 +77,15 @@ class City:
         self.session.commit()
         return new_city.id
 
-    def create_district(self, name, city_id, parent_district_id=None,
-                        color='0xD9534F'):
-        if parent_district_id:
-            self._cursor.execute(
-                """insert into jscity.tb_district
-                    (name, color, tooltip, city_id, district_id)
-                    values ('%s', '%s', '%s', %d, %d)""" % \
-                    (name, color, name, city_id, parent_district_id)
-            )
-        else:
-            self._cursor.execute(
-                """insert into jscity.tb_district
-                    (name, color, tooltip, city_id)
-                    values ('%s', '%s', '%s', %d)""" % \
-                    (name, color, name, city_id)
-            )
 
-        self._connection.commit()
-        return self._cursor.lastrowid
+    def create_district(self, name, city_id, parent_district_id=None,
+            color='0xD9534F'):
+        new_district = District(name=name, tooltip=name, color=color,
+            city_id=city_id, district_id=parent_district_id)
+        self.session.add(new_district)
+        self.session.commit()
+        return new_district.id
+
 
     def create_building(self, name, height, width, district_id, color='0x337AB7'):
         self._cursor.execute(
