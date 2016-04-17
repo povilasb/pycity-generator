@@ -64,25 +64,27 @@ class City:
         Returns:
             int: created city id.
         """
-        new_city = CodeCity(name=name, tooltip=name)
-        self.session.add(new_city)
-        self.session.commit()
-        return new_city.id
+        return self._insert(CodeCity(name=name, tooltip=name))
 
 
     def create_district(self, name, city_id, parent_district_id=None,
             color='0xD9534F'):
-        new_district = District(name=name, tooltip=name, color=color,
-            city_id=city_id, district_id=parent_district_id)
-        self.session.add(new_district)
-        self.session.commit()
-        return new_district.id
+        return self._insert(District(name=name, tooltip=name, color=color,
+            city_id=city_id, district_id=parent_district_id))
 
 
     def create_building(self, name, height, width, district_id,
             color='0x337AB7'):
-        new_building = Building(name=name, tooltip=name, color=color,
-            district_id=district_id, height=height, width=width)
-        self.session.add(new_building)
+        return self._insert(Building(name=name, tooltip=name, color=color,
+            district_id=district_id, height=height, width=width))
+
+
+    def _insert(self, row):
+        """Inserts row into DB.
+
+        Returns:
+            int inserted row id.
+        """
+        self.session.add(row)
         self.session.commit()
-        return new_building.id
+        return row.id
