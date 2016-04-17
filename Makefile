@@ -1,5 +1,6 @@
 src_dir := src
 
+python ?= python3
 virtualenv_dir := pyenv
 pip := $(virtualenv_dir)/bin/pip
 pytest := $(virtualenv_dir)/bin/py.test
@@ -13,7 +14,7 @@ test: $(virtualenv_dir)
 .PHONY: test
 
 $(virtualenv_dir): requirements/prod.txt requirements/dev.txt
-	virtualenv $@
+	virtualenv $@ --python=$(python)
 
 	for r in $^ ; do \
 		$(pip) install -r $$r ; \
