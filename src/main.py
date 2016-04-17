@@ -7,8 +7,8 @@ import cli
 
 city_db = db.City(config.MYSQL['host'], config.MYSQL['username'],
     config.MYSQL['password'], config.MYSQL['database'])
-city_db.connect()
 city_id = city_db.create_city(cli.options().project_name)
+
 
 def calc_stats(fs_node, parent_district_id=None):
     """Collect project stats.

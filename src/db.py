@@ -1,5 +1,3 @@
-import MySQLdb as mysql
-
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -51,30 +49,11 @@ class Building(Base):
 
 class City:
     def __init__(self, host, username, password, database):
-        self.host = host
-        self.username = username
-        self.password = password
-        self.database = database
-
-        self._connection = None
-        self._cursor = None
-
         engine = create_engine('mysql://%s:%s@%s/%s' \
             % (username, password, host, database))
         Session = sessionmaker(bind=engine)
         self.session = Session()
 
-    def connect(self):
-        self._connection = mysql.connect(
-            self.host,
-            self.username,
-            self.password,
-            self.database
-        )
-        self._cursor = self._connection.cursor()
-
-    def disconnect(self):
-        self._connection.close()
 
     def create_city(self, name):
         """Create new row in city table.
